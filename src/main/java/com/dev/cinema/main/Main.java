@@ -33,11 +33,13 @@ public class Main {
         CinemaHallService cinemaHallService =
                 (CinemaHallService) injector.getInstance(CinemaHallService.class);
         CinemaHall blueHall = new CinemaHall();
-        blueHall.setName("Blue hall");
+        blueHall.setDescription("Blue hall");
+        blueHall.setCapacity(100);
         cinemaHallService.add(blueHall);
 
         CinemaHall orangeHall = new CinemaHall();
-        orangeHall.setName("Orange Hall");
+        orangeHall.setDescription("Orange Hall");
+        orangeHall.setCapacity(150);
         cinemaHallService.add(orangeHall);
 
         cinemaHallService.getAll().forEach(System.out::println);
