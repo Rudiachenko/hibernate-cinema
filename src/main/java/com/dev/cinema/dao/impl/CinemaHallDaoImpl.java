@@ -8,7 +8,6 @@ import exceptions.DataProcessingException;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 
 @Dao
 public class CinemaHallDaoImpl implements CinemaHallDao {
@@ -39,9 +38,7 @@ public class CinemaHallDaoImpl implements CinemaHallDao {
     @Override
     public List<CinemaHall> getAll() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query<CinemaHall> getAllMoviesQuery =
-                    session.createQuery("from CinemaHall", CinemaHall.class);
-            return getAllMoviesQuery.getResultList();
+            return session.createQuery("FROM CinemaHall", CinemaHall.class).getResultList();
         }
     }
 }

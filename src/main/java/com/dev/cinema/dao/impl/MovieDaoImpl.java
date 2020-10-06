@@ -8,7 +8,6 @@ import exceptions.DataProcessingException;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 
 @Dao
 public class MovieDaoImpl implements MovieDao {
@@ -38,10 +37,7 @@ public class MovieDaoImpl implements MovieDao {
     @Override
     public List<Movie> getAll() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query<Movie> getAllMoviesQuery = session.createQuery("from Movie", Movie.class);
-            return getAllMoviesQuery.getResultList();
-        } catch (Exception e) {
-            throw new DataProcessingException("Error retrieving all movies. ", e);
+            return session.createQuery("FROM Movie", Movie.class).getResultList();
         }
     }
 }
