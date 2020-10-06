@@ -1,8 +1,13 @@
 package com.dev.cinema.model;
 
-import javax.persistence.*;
-import java.time.LocalDate;
-import java.util.List;
+import java.time.LocalDateTime;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "movie_session")
@@ -10,29 +15,47 @@ public class MovieSession {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
-    @Column(name = "date")
-    private LocalDate date;
-    @ManyToMany
-    private List<CinemaHall> cinemaHalls;
+    @Column(name = "show_time")
+    private LocalDateTime showTime;
+    @ManyToOne
+    private CinemaHall cinemaHall;
+    @ManyToOne
+    private Movie movie;
 
     public Long getId() {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public LocalDateTime getShowTime() {
+        return showTime;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setShowTime(LocalDateTime showTime) {
+        this.showTime = showTime;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public Movie getMovie() {
+        return movie;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setMovie(Movie movie) {
+        this.movie = movie;
+    }
+
+    public CinemaHall getCinemaHall() {
+        return cinemaHall;
+    }
+
+    public void setCinemaHall(CinemaHall cinemaHall) {
+        this.cinemaHall = cinemaHall;
+    }
+
+    @Override
+    public String toString() {
+        return "MovieSession{"
+                + "id=" + id
+                + ", date=" + showTime
+                + ", movie=" + movie
+                + '}';
     }
 }

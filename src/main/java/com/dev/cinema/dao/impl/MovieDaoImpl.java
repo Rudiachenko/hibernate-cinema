@@ -7,30 +7,27 @@ import com.dev.cinema.util.HibernateUtil;
 import exceptions.DataProcessingException;
 import java.util.List;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 @Dao
-public class MovieDaoImpl extends AbstractDao<Movie> implements MovieDao {
-    protected MovieDaoImpl(SessionFactory sessionFactory) {
-        super(sessionFactory);
-    }
+public class MovieDaoImpl implements MovieDao {
 
+    @Override
     public Movie add(Movie movie) {
         Transaction transaction = null;
         Session session = null;
         try {
-            session = factory.openSession();
+            session = HibernateUtil.getSessionFactory().openSession();
             transaction = session.beginTransaction();
-            session.save(movie);
+            session.persist(movie);
             transaction.commit();
             return movie;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't insert movie entity", e);
+            throw new DataProcessingException("Can't insert movie " + movie.getTitle(), e);
         } finally {
             if (session != null) {
                 session.close();
@@ -38,8 +35,9 @@ public class MovieDaoImpl extends AbstractDao<Movie> implements MovieDao {
         }
     }
 
+    @Override
     public List<Movie> getAll() {
-        try (Session session = factory.openSession()) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<Movie> getAllMoviesQuery = session.createQuery("from Movie", Movie.class);
             return getAllMoviesQuery.getResultList();
         } catch (Exception e) {

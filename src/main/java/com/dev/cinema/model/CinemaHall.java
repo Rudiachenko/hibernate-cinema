@@ -1,7 +1,10 @@
 package com.dev.cinema.model;
 
-import javax.persistence.*;
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "cinema_hall")
@@ -10,11 +13,6 @@ public class CinemaHall {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @ManyToMany
-    private List<MovieSession> movieSessions;
-
-    public CinemaHall() {
-    }
 
     public Long getId() {
         return id;
@@ -26,5 +24,13 @@ public class CinemaHall {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "CinemaHall{"
+                + "id=" + id
+                + ", name='" + name + '\''
+                + '}';
     }
 }
