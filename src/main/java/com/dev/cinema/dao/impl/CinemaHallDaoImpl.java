@@ -1,36 +1,37 @@
 package com.dev.cinema.dao.impl;
 
-import com.dev.cinema.dao.MovieDao;
-import com.dev.cinema.lib.Dao;
+import com.dev.cinema.dao.CinemaHallDao;
+import com.dev.cinema.model.CinemaHall;
 import com.dev.cinema.model.Movie;
 import com.dev.cinema.util.HibernateUtil;
 import exceptions.DataProcessingException;
-import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
-@Dao
-public class MovieDaoImpl extends AbstractDao<Movie> implements MovieDao {
-    protected MovieDaoImpl(SessionFactory sessionFactory) {
+import java.util.List;
+
+public class CinemaHallDaoImpl extends AbstractDao<CinemaHall> implements CinemaHallDao {
+    protected CinemaHallDaoImpl(SessionFactory sessionFactory) {
         super(sessionFactory);
     }
 
-    public Movie add(Movie movie) {
+    @Override
+    public CinemaHall add(CinemaHall cinemaHall) {
         Transaction transaction = null;
         Session session = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.save(movie);
+            session.save(cinemaHall);
             transaction.commit();
-            return movie;
+            return cinemaHall;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't insert movie entity", e);
+            throw new DataProcessingException("Can't insert cinema hall entity", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -38,12 +39,11 @@ public class MovieDaoImpl extends AbstractDao<Movie> implements MovieDao {
         }
     }
 
-    public List<Movie> getAll() {
+    @Override
+    public List<CinemaHall> getAll() {
         try (Session session = factory.openSession()) {
-            Query<Movie> getAllMoviesQuery = session.createQuery("from Movie", Movie.class);
+            Query<CinemaHall> getAllMoviesQuery = session.createQuery("from CinemaHall", CinemaHall.class);
             return getAllMoviesQuery.getResultList();
-        } catch (Exception e) {
-            throw new DataProcessingException("Error retrieving all movies. ", e);
         }
     }
 }
