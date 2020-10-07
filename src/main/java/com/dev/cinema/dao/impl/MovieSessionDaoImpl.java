@@ -6,7 +6,6 @@ import com.dev.cinema.model.MovieSession;
 import com.dev.cinema.util.HibernateUtil;
 import exceptions.DataProcessingException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import org.hibernate.Session;
@@ -31,7 +30,7 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
                 transaction.rollback();
             }
             throw new DataProcessingException("Can't insert movie session with movie "
-                    + movieSession.getMovie(), e);
+                    + movieSession.toString(), e);
         } finally {
             if (session != null) {
                 session.close();
@@ -45,11 +44,9 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
             Query<MovieSession> query =
                     session.createQuery("FROM MovieSession WHERE movie_id = :movieId "
                     + "AND show_time BETWEEN :start AND :end", MovieSession.class);
-            LocalDateTime start = date.atTime(LocalTime.MIN);
-            LocalDateTime end = date.atTime(LocalTime.MAX);
             query.setParameter("movieId", movieId);
-            query.setParameter("start", start);
-            query.setParameter("end", end);
+            query.setParameter("start", date.atTime(LocalTime.MIN));
+            query.setParameter("end", date.atTime(LocalTime.MAX));
             return query.getResultList();
         }
     }

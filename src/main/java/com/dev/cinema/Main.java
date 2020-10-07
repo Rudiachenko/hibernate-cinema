@@ -1,4 +1,4 @@
-package com.dev.cinema.main;
+package com.dev.cinema;
 
 import com.dev.cinema.lib.Injector;
 import com.dev.cinema.model.CinemaHall;
