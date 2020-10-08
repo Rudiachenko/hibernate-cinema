@@ -24,7 +24,7 @@ public class HashUtil {
                 hashedPassword.append(String.format("%02x", part));
             }
         } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("No cryptographic algorithm is available.");
+            throw new RuntimeException("No cryptographic algorithm is available. " + e);
         }
         return hashedPassword.toString();
     }
