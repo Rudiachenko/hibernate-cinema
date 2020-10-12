@@ -90,6 +90,6 @@ public class Main {
                 (OrderService) injector.getInstance(OrderService.class);
         List<Ticket> bobTickets = shoppingCartService.getByUser(userBob).getTickets();
         orderService.completeOrder(bobTickets, userBob);
-        System.out.println(orderService.getOrderHistory(userBob));
+        orderService.getOrderHistory(userBob).forEach(System.out::println);
     }
 }
