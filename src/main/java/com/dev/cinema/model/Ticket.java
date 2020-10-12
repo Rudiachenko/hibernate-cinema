@@ -46,8 +46,10 @@ public class Ticket {
     public String toString() {
         return "Ticket{"
                 + "id=" + id
-                + ", owner=" + owner
-                + ", movieSession=" + movieSession
+                + ", owner=" + owner.getEmail()
+                + ", movie title=" + movieSession.getMovie().getTitle()
+                + ", show time=" + movieSession.getShowTime()
+                + ", cinema hall=" + movieSession.getCinemaHall().getDescription()
                 + '}';
     }
 }
