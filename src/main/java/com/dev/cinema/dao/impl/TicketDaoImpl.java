@@ -9,7 +9,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 @Dao
-public class TicketDaoImp implements TicketDao {
+public class TicketDaoImpl implements TicketDao {
     @Override
     public Ticket add(Ticket ticket) {
         Transaction transaction = null;
@@ -17,7 +17,7 @@ public class TicketDaoImp implements TicketDao {
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             transaction = session.beginTransaction();
-            session.persist(ticket);
+            session.save(ticket);
             transaction.commit();
             return ticket;
         } catch (Exception e) {

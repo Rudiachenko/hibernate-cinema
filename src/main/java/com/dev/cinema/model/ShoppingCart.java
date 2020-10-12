@@ -15,7 +15,6 @@ import javax.persistence.Table;
 @Table(name = "shopping_carts")
 public class ShoppingCart {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToMany
     private List<Ticket> tickets;
@@ -24,11 +23,12 @@ public class ShoppingCart {
     @JoinColumn(name = "id")
     private User user;
 
-    public ShoppingCart() {
-    }
-
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public List<Ticket> getTickets() {
