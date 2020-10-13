@@ -4,16 +4,19 @@ import com.dev.cinema.lib.Injector;
 import com.dev.cinema.model.CinemaHall;
 import com.dev.cinema.model.Movie;
 import com.dev.cinema.model.MovieSession;
+import com.dev.cinema.model.Ticket;
 import com.dev.cinema.model.User;
 import com.dev.cinema.security.AuthenticationService;
 import com.dev.cinema.service.CinemaHallService;
 import com.dev.cinema.service.MovieService;
 import com.dev.cinema.service.MovieSessionService;
+import com.dev.cinema.service.OrderService;
 import com.dev.cinema.service.ShoppingCartService;
 import exceptions.AuthenticationException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 
 public class Main {
     private static final Injector injector = Injector.getInstance("com.dev.cinema");
@@ -81,7 +84,12 @@ public class Main {
                 (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
         shoppingCartService.addSession(movieSession1, userBob);
         shoppingCartService.addSession(movieSession2, userAlice);
-        System.out.println(shoppingCartService.getByUser(userBob));
         System.out.println(shoppingCartService.getByUser(userAlice));
+
+        OrderService orderService =
+                (OrderService) injector.getInstance(OrderService.class);
+        List<Ticket> bobTickets = shoppingCartService.getByUser(userBob).getTickets();
+        orderService.completeOrder(bobTickets, userBob);
+        orderService.getOrderHistory(userBob).forEach(System.out::println);
     }
 }
