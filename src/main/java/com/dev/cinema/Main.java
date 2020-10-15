@@ -24,6 +24,7 @@ public class Main {
     private static final Logger logger = Logger.getLogger(Main.class);
 
     public static void main(String[] args) throws AuthenticationException {
+        logger.info("Application started successfully");
         MovieService movieService = (MovieService) injector.getInstance(MovieService.class);
         Movie harryPotter = new Movie();
         harryPotter.setTitle("Harry Potter");
@@ -93,5 +94,7 @@ public class Main {
         List<Ticket> bobTickets = shoppingCartService.getByUser(userBob).getTickets();
         orderService.completeOrder(bobTickets, userBob);
         orderService.getOrderHistory(userBob).forEach(logger::info);
+
+        logger.info("Application finished successfully");
     }
 }
