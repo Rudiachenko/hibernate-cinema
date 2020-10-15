@@ -7,12 +7,14 @@ import com.dev.cinema.model.User;
 import com.dev.cinema.util.HibernateUtil;
 import exceptions.DataProcessingException;
 import java.util.List;
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 @Dao
 public class OrderDaoImpl implements OrderDao {
+    private static final Logger logger = Logger.getLogger(OrderDaoImpl.class);
 
     @Override
     public Order add(Order order) {
@@ -23,6 +25,7 @@ public class OrderDaoImpl implements OrderDao {
             transaction = session.beginTransaction();
             session.save(order);
             transaction.commit();
+            logger.info("Order inserted successfully.");
             return order;
         } catch (Exception e) {
             if (transaction != null) {
@@ -46,6 +49,7 @@ public class OrderDaoImpl implements OrderDao {
             transaction = session.beginTransaction();
             session.update(order);
             transaction.commit();
+            logger.info("Order updated successfully.");
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
