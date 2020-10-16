@@ -26,7 +26,7 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
             transaction = session.beginTransaction();
             session.save(movieSession);
             transaction.commit();
-            logger.info("Movie session inserted successfully.");
+            logger.info("Movie session inserted successfully. " + movieSession);
             return movieSession;
         } catch (Exception e) {
             if (transaction != null) {

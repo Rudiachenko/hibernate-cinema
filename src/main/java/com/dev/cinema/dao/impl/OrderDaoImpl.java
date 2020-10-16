@@ -25,7 +25,7 @@ public class OrderDaoImpl implements OrderDao {
             transaction = session.beginTransaction();
             session.save(order);
             transaction.commit();
-            logger.info("Order inserted successfully.");
+            logger.info("Order inserted successfully. " + order);
             return order;
         } catch (Exception e) {
             if (transaction != null) {
@@ -49,7 +49,7 @@ public class OrderDaoImpl implements OrderDao {
             transaction = session.beginTransaction();
             session.update(order);
             transaction.commit();
-            logger.info("Order updated successfully.");
+            logger.info("Order updated successfully. " + order);
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
