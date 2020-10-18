@@ -17,11 +17,14 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import org.apache.log4j.Logger;
 
 public class Main {
     private static final Injector injector = Injector.getInstance("com.dev.cinema");
+    private static final Logger logger = Logger.getLogger(Main.class);
 
     public static void main(String[] args) throws AuthenticationException {
+        logger.info("Application started successfully");
         MovieService movieService = (MovieService) injector.getInstance(MovieService.class);
         Movie harryPotter = new Movie();
         harryPotter.setTitle("Harry Potter");
@@ -35,7 +38,7 @@ public class Main {
                 + "written and directed by Guy Ritchie");
         movieService.add(rocknRolla);
 
-        movieService.getAll().forEach(System.out::println);
+        movieService.getAll().forEach(logger::info);
 
         CinemaHallService cinemaHallService =
                 (CinemaHallService) injector.getInstance(CinemaHallService.class);
@@ -49,7 +52,7 @@ public class Main {
         orangeHall.setCapacity(150);
         cinemaHallService.add(orangeHall);
 
-        cinemaHallService.getAll().forEach(System.out::println);
+        cinemaHallService.getAll().forEach(logger::info);
 
         MovieSession movieSession1 = new MovieSession();
         movieSession1.setMovie(harryPotter);
@@ -71,25 +74,27 @@ public class Main {
         movieSession2.setShowTime(showTime2);
         movieSessionService.add(movieSession2);
 
-        System.out.println(movieSessionService.findAvailableSessions(1L, date1));
-        System.out.println(movieSessionService.findAvailableSessions(2L, date2));
+        logger.info(movieSessionService.findAvailableSessions(1L, date1));
+        logger.info(movieSessionService.findAvailableSessions(2L, date2));
 
         AuthenticationService authenticationService =
                 (AuthenticationService) injector.getInstance(AuthenticationService.class);
         User userBob = authenticationService.register("bob@gmail.com", "qwerty123456");
         User userAlice = authenticationService.register("alice@gmail.com", "qwerty123456");
-        System.out.println(authenticationService.login("alice@gmail.com", "qwerty123456"));
+        logger.info(authenticationService.login("alice@gmail.com", "qwerty123456"));
 
         ShoppingCartService shoppingCartService =
                 (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
         shoppingCartService.addSession(movieSession1, userBob);
         shoppingCartService.addSession(movieSession2, userAlice);
-        System.out.println(shoppingCartService.getByUser(userAlice));
+        logger.info(shoppingCartService.getByUser(userAlice));
 
         OrderService orderService =
                 (OrderService) injector.getInstance(OrderService.class);
         List<Ticket> bobTickets = shoppingCartService.getByUser(userBob).getTickets();
         orderService.completeOrder(bobTickets, userBob);
-        orderService.getOrderHistory(userBob).forEach(System.out::println);
+        orderService.getOrderHistory(userBob).forEach(logger::info);
+
+        logger.info("Application finished successfully");
     }
 }
