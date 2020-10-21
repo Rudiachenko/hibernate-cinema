@@ -1,27 +1,34 @@
 package com.dev.cinema.dao.impl;
 
 import com.dev.cinema.dao.OrderDao;
-import com.dev.cinema.lib.Dao;
 import com.dev.cinema.model.Order;
 import com.dev.cinema.model.User;
-import com.dev.cinema.util.HibernateUtil;
 import exceptions.DataProcessingException;
 import java.util.List;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
-@Dao
+@Repository
 public class OrderDaoImpl implements OrderDao {
     private static final Logger logger = Logger.getLogger(OrderDaoImpl.class);
+    private final SessionFactory sessionFactory;
+
+    @Autowired
+    public OrderDaoImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
 
     @Override
     public Order add(Order order) {
         Transaction transaction = null;
         Session session = null;
         try {
-            session = HibernateUtil.getSessionFactory().openSession();
+            session = sessionFactory.openSession();
             transaction = session.beginTransaction();
             session.save(order);
             transaction.commit();
@@ -45,7 +52,7 @@ public class OrderDaoImpl implements OrderDao {
         Transaction transaction = null;
         Session session = null;
         try {
-            session = HibernateUtil.getSessionFactory().openSession();
+            session = sessionFactory.openSession();
             transaction = session.beginTransaction();
             session.update(order);
             transaction.commit();
@@ -65,7 +72,7 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public List<Order> getByUser(User user) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             Query<Order> query = session.createQuery("select distinct o from Order o "
                     + "left join fetch o.tickets "
                     + "where o.user = :user", Order.class);

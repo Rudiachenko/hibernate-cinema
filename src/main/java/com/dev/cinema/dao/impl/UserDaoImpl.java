@@ -1,26 +1,33 @@
 package com.dev.cinema.dao.impl;
 
 import com.dev.cinema.dao.UserDao;
-import com.dev.cinema.lib.Dao;
 import com.dev.cinema.model.User;
-import com.dev.cinema.util.HibernateUtil;
 import exceptions.DataProcessingException;
 import java.util.Optional;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
-@Dao
+@Repository
 public class UserDaoImpl implements UserDao {
     private static final Logger logger = Logger.getLogger(UserDaoImpl.class);
+    private final SessionFactory sessionFactory;
+
+    @Autowired
+    public UserDaoImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
 
     @Override
     public User add(User user) {
         Transaction transaction = null;
         Session session = null;
         try {
-            session = HibernateUtil.getSessionFactory().openSession();
+            session = sessionFactory.openSession();
             transaction = session.beginTransaction();
             session.save(user);
             transaction.commit();
@@ -40,7 +47,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public Optional<User> findByEmail(String email) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             Query<User> query = session.createQuery("FROM User WHERE email = :email");
             query.setParameter("email", email);
             return query.uniqueResultOptional();
