@@ -40,6 +40,7 @@ public class MovieSessionMapper {
                 = new MovieSessionResponseDto();
         movieSessionResponseDto.setCinemaHallDescription(movieSession
                 .getCinemaHall().getDescription());
+        movieSessionResponseDto.setId(movieSession.getId());
         movieSessionResponseDto.setMovie(movieSession.getMovie().getTitle());
         movieSessionResponseDto.setShowTime(movieSession.getShowTime()
                 .format(DateTimeFormatter.ISO_LOCAL_TIME));

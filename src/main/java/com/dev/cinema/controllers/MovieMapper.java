@@ -16,6 +16,7 @@ public class MovieMapper {
 
     protected MovieResponseDto toResponseFromModel(Movie movie) {
         MovieResponseDto responseDto = new MovieResponseDto();
+        responseDto.setId(movie.getId());
         responseDto.setTitle(movie.getTitle());
         responseDto.setDescription(movie.getDescription());
         return responseDto;
