@@ -4,16 +4,14 @@ import com.dev.cinema.model.Order;
 import com.dev.cinema.model.dto.OrderResponseDto;
 import com.dev.cinema.model.dto.TicketResponseDto;
 import com.dev.cinema.model.dto.UserResponseDto;
-import org.springframework.stereotype.Component;
-
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.stereotype.Component;
 
 @Component
 public class OrderMapper {
     private final TicketMapper ticketMapper;
     private final UserMapper userMapper;
-
 
     public OrderMapper(TicketMapper ticketMapper,
                        UserMapper userMapper) {

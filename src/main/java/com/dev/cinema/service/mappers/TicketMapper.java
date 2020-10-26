@@ -16,8 +16,7 @@ public class TicketMapper {
         this.movieSessionMapper = movieSessionMapper;
     }
 
-
-    public TicketResponseDto toTicketResponseDto(Ticket ticket){
+    public TicketResponseDto toTicketResponseDto(Ticket ticket) {
         TicketResponseDto ticketResponseDto = new TicketResponseDto();
         Long id = ticket.getId();
         String email = ticket.getOwner().getEmail();

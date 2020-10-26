@@ -1,7 +1,6 @@
 package com.dev.cinema.dao.impl;
 
 import com.dev.cinema.dao.UserDao;
-import com.dev.cinema.model.Movie;
 import com.dev.cinema.model.User;
 import exceptions.DataProcessingException;
 import java.util.Optional;
