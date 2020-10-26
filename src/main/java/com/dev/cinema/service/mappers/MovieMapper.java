@@ -1,4 +1,4 @@
-package com.dev.cinema.controllers;
+package com.dev.cinema.service.mappers;
 
 import com.dev.cinema.model.Movie;
 import com.dev.cinema.model.dto.MovieRequestDto;
@@ -7,14 +7,14 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class MovieMapper {
-    protected Movie toMovieFromRequestDto(MovieRequestDto requestDto) {
+    public Movie toMovieModel(MovieRequestDto requestDto) {
         Movie movie = new Movie();
         movie.setTitle(requestDto.getTitle());
         movie.setDescription(requestDto.getDescription());
         return movie;
     }
 
-    protected MovieResponseDto toResponseFromModel(Movie movie) {
+    public MovieResponseDto toMovieResponseDto(Movie movie) {
         MovieResponseDto responseDto = new MovieResponseDto();
         responseDto.setId(movie.getId());
         responseDto.setTitle(movie.getTitle());

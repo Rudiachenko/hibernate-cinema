@@ -2,7 +2,6 @@ package com.dev.cinema.model.dto;
 
 public class UserRequestDto {
     private String email;
-    private String login;
     private String password;
 
     public String getEmail() {
@@ -11,14 +10,6 @@ public class UserRequestDto {
 
     public void setEmail(String name) {
         this.email = name;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
     }
 
     public String getPassword() {

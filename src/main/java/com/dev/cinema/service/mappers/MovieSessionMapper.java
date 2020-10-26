@@ -1,4 +1,4 @@
-package com.dev.cinema.controllers;
+package com.dev.cinema.service.mappers;
 
 import com.dev.cinema.model.CinemaHall;
 import com.dev.cinema.model.Movie;
@@ -23,7 +23,7 @@ public class MovieSessionMapper {
         this.cinemaHallService = cinemaHallService;
     }
 
-    protected MovieSession toMovieSessionModel(MovieSessionRequestDto movieSessionRequestDto) {
+    public MovieSession toMovieSessionModel(MovieSessionRequestDto movieSessionRequestDto) {
         MovieSession movieSession = new MovieSession();
         CinemaHall cinemaHall = cinemaHallService.get(movieSessionRequestDto.getCinemaHallId());
         Movie movie = movieService.get(movieSessionRequestDto.getMovieId());
@@ -35,13 +35,13 @@ public class MovieSessionMapper {
         return movieSession;
     }
 
-    protected MovieSessionResponseDto toMovieSessionResponseDto(MovieSession movieSession) {
+    public MovieSessionResponseDto toMovieSessionResponseDto(MovieSession movieSession) {
         MovieSessionResponseDto movieSessionResponseDto
                 = new MovieSessionResponseDto();
         movieSessionResponseDto.setCinemaHallDescription(movieSession
                 .getCinemaHall().getDescription());
         movieSessionResponseDto.setId(movieSession.getId());
-        movieSessionResponseDto.setMovie(movieSession.getMovie().getTitle());
+        movieSessionResponseDto.setMovieTitle(movieSession.getMovie().getTitle());
         movieSessionResponseDto.setShowTime(movieSession.getShowTime()
                 .format(DateTimeFormatter.ISO_LOCAL_TIME));
         return movieSessionResponseDto;

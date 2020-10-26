@@ -3,6 +3,7 @@ package com.dev.cinema.controllers;
 import com.dev.cinema.model.dto.MovieSessionRequestDto;
 import com.dev.cinema.model.dto.MovieSessionResponseDto;
 import com.dev.cinema.service.MovieSessionService;
+import com.dev.cinema.service.mappers.MovieSessionMapper;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -18,12 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/movie-sessions")
 public class MovieSessionController {
+    private static final String DATE = "dd.MM.yyyy";
     private final MovieSessionService movieSessionService;
     private final MovieSessionMapper movieSessionMapper;
 
     @Autowired
-    public MovieSessionController(MovieSessionService movieSessionService,
-                                  MovieSessionMapper movieSessionMapper) {
+    public MovieSessionController(MovieSessionService movieSessionService, MovieSessionMapper movieSessionMapper) {
         this.movieSessionService = movieSessionService;
         this.movieSessionMapper = movieSessionMapper;
     }
@@ -36,8 +37,10 @@ public class MovieSessionController {
     @GetMapping("/available")
     public List<MovieSessionResponseDto> findAvailable(
             @RequestParam Long movieId, @RequestParam String date) {
-        LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd.MM.yyyy"));
-        return movieSessionService.findAvailableSessions(movieId, localDate).stream()
-                .map(movieSessionMapper::toMovieSessionResponseDto).collect(Collectors.toList());
+        LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ofPattern(DATE));
+        return movieSessionService.findAvailableSessions(movieId, localDate)
+                .stream()
+                .map(movieSessionMapper::toMovieSessionResponseDto)
+                .collect(Collectors.toList());
     }
 }
