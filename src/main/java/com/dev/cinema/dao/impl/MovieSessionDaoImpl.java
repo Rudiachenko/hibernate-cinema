@@ -1,6 +1,7 @@
 package com.dev.cinema.dao.impl;
 
 import com.dev.cinema.dao.MovieSessionDao;
+import com.dev.cinema.model.Movie;
 import com.dev.cinema.model.MovieSession;
 import exceptions.DataProcessingException;
 import java.time.LocalDate;
@@ -45,6 +46,13 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
             if (session != null) {
                 session.close();
             }
+        }
+    }
+
+    @Override
+    public MovieSession get(Long id) {
+        try (Session session = sessionFactory.openSession()) {
+            return session.get(MovieSession.class, id);
         }
     }
 

@@ -1,6 +1,7 @@
 package com.dev.cinema.dao.impl;
 
 import com.dev.cinema.dao.UserDao;
+import com.dev.cinema.model.Movie;
 import com.dev.cinema.model.User;
 import exceptions.DataProcessingException;
 import java.util.Optional;
@@ -42,6 +43,13 @@ public class UserDaoImpl implements UserDao {
             if (session != null) {
                 session.close();
             }
+        }
+    }
+
+    @Override
+    public User findById(Long id) {
+        try (Session session = sessionFactory.openSession()) {
+            return session.get(User.class, id);
         }
     }
 
