@@ -1,37 +1,36 @@
 package com.dev.cinema.service.mappers;
 
 import com.dev.cinema.model.Order;
-import com.dev.cinema.model.Ticket;
-import com.dev.cinema.model.User;
-import com.dev.cinema.model.dto.OrderRequestDto;
-import com.dev.cinema.service.MovieSessionService;
-import com.dev.cinema.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.dev.cinema.model.dto.OrderResponseDto;
+import com.dev.cinema.model.dto.TicketResponseDto;
+import com.dev.cinema.model.dto.UserResponseDto;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class OrderMapper {
-    private final UserService userService;
-    private final MovieSessionService movieSessionService;
+    private final TicketMapper ticketMapper;
+    private final UserMapper userMapper;
 
-    @Autowired
-    public OrderMapper(UserService userService, MovieSessionService movieSessionService) {
-        this.userService = userService;
-        this.movieSessionService = movieSessionService;
+
+    public OrderMapper(TicketMapper ticketMapper,
+                       UserMapper userMapper) {
+        this.ticketMapper = ticketMapper;
+        this.userMapper = userMapper;
     }
 
-    public Order toOrderModel(OrderRequestDto orderRequestDto){
-        Long movieSessionId = orderRequestDto.getMovieSessionId();
-        String orderOwner = orderRequestDto.getUserOrderOwner();
-        String ticketOwner = orderRequestDto.getUserTicketOwner();
-
-        User userOrderOwner = userService.findByEmail(orderOwner).get();
-        User userTickerOrder = userService.findByEmail(ticketOwner).get();
-
-        Ticket ticket = new Ticket();
-        Order order = new Order();
-        ticket.setOwner(userTickerOrder);
-        order.setUser(userOrderOwner);
-        return order;
+    public OrderResponseDto toOrderResponseDto(Order order) {
+        OrderResponseDto orderResponseDto = new OrderResponseDto();
+        UserResponseDto userResponseDto = userMapper.toUserResponseDto(order.getUser());
+        List<TicketResponseDto> ticketResponseDto = order.getTickets().stream()
+                .map(ticketMapper::toTicketResponseDto)
+                .collect(Collectors.toList());
+        orderResponseDto.setId(order.getId());
+        orderResponseDto.setUserResponseDto(userResponseDto);
+        orderResponseDto.setTicketResponseDto(ticketResponseDto);
+        orderResponseDto.setOrderDate(order.getOrderDate().toString());
+        return orderResponseDto;
     }
 }

@@ -1,31 +1,13 @@
 package com.dev.cinema.model.dto;
 
 public class OrderRequestDto {
-    private String userOrderOwner;
-    private String userTicketOwner;
-    private Long movieSessionId;
+    private Long userOrderOwnerId;
 
-    public String getUserOrderOwner() {
-        return userOrderOwner;
+    public Long getUserOrderOwnerId() {
+        return userOrderOwnerId;
     }
 
-    public void setUserOrderOwner(String userOrderOwner) {
-        this.userOrderOwner = userOrderOwner;
-    }
-
-    public String getUserTicketOwner() {
-        return userTicketOwner;
-    }
-
-    public void setUserTicketOwner(String userTicketOwner) {
-        this.userTicketOwner = userTicketOwner;
-    }
-
-    public Long getMovieSessionId() {
-        return movieSessionId;
-    }
-
-    public void setMovieSessionId(Long movieSessionId) {
-        this.movieSessionId = movieSessionId;
+    public void setUserOrderOwnerId(Long userOrderOwnerId) {
+        this.userOrderOwnerId = userOrderOwnerId;
     }
 }
