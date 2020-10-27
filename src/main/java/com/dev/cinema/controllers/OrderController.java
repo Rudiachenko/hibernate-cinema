@@ -40,8 +40,8 @@ public class OrderController {
 
     @PostMapping("/complete")
     public void complete(@RequestBody OrderRequestDto orderRequestDto) {
-        Long userOrderOwnerId = orderRequestDto.getUserOrderOwnerId();
-        User user = userService.findById(userOrderOwnerId);
+        Long getUserId = orderRequestDto.getUserOrderOwnerId();
+        User user = userService.findById(getUserId);
         ShoppingCart shoppingCart = shoppingCartService.getByUser(user);
         List<Ticket> tickets = shoppingCart.getTickets();
         orderService.completeOrder(tickets, user);
