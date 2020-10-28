@@ -13,16 +13,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ShoppingCartMapper {
-    private final UserService userService;
-    private final ShoppingCartService shoppingCartService;
     private final TicketMapper ticketMapper;
 
     @Autowired
-    public ShoppingCartMapper(UserService userService,
-                              ShoppingCartService shoppingCartService,
-                              TicketMapper ticketMapper) {
-        this.userService = userService;
-        this.shoppingCartService = shoppingCartService;
+    public ShoppingCartMapper(TicketMapper ticketMapper) {
         this.ticketMapper = ticketMapper;
     }
 
