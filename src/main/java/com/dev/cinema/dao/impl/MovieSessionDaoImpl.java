@@ -49,6 +49,13 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
     }
 
     @Override
+    public MovieSession get(Long id) {
+        try (Session session = sessionFactory.openSession()) {
+            return session.get(MovieSession.class, id);
+        }
+    }
+
+    @Override
     public List<MovieSession> findAvailableSessions(Long movieId, LocalDate date) {
         try (Session session = sessionFactory.openSession()) {
             Query<MovieSession> query =
