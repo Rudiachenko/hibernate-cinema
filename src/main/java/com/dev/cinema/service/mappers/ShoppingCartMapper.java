@@ -26,8 +26,7 @@ public class ShoppingCartMapper {
         this.ticketMapper = ticketMapper;
     }
 
-    public ShoppingCartResponseDto toShoppingCartResponseDto(Long userId) {
-        ShoppingCart shoppingCart = shoppingCartService.getByUser(userService.findById(userId));
+    public ShoppingCartResponseDto toShoppingCartResponseDto(ShoppingCart shoppingCart) {
         ShoppingCartResponseDto shoppingCartResponseDto = new ShoppingCartResponseDto();
 
         Long id = shoppingCart.getId();
