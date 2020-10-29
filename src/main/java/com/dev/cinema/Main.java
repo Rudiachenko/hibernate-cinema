@@ -12,7 +12,6 @@ import com.dev.cinema.service.MovieService;
 import com.dev.cinema.service.MovieSessionService;
 import com.dev.cinema.service.OrderService;
 import com.dev.cinema.service.ShoppingCartService;
-import exceptions.AuthenticationException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -23,7 +22,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 public class Main {
     private static final Logger logger = Logger.getLogger(Main.class);
 
-    public static void main(String[] args) throws AuthenticationException {
+    public static void main(String[] args) {
         AnnotationConfigApplicationContext context =
                 new AnnotationConfigApplicationContext(AppConfig.class);
 
@@ -81,7 +80,6 @@ public class Main {
         AuthenticationService authenticationService = context.getBean(AuthenticationService.class);
         User userBob = authenticationService.register("bob@gmail.com", "qwerty123456");
         User userAlice = authenticationService.register("alice@gmail.com", "qwerty123456");
-        logger.info(authenticationService.login("alice@gmail.com", "qwerty123456"));
 
         ShoppingCartService shoppingCartService = context.getBean(ShoppingCartService.class);
         shoppingCartService.addSession(movieSession1, userBob);

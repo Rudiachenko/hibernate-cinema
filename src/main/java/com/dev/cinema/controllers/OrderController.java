@@ -3,7 +3,6 @@ package com.dev.cinema.controllers;
 import com.dev.cinema.model.ShoppingCart;
 import com.dev.cinema.model.Ticket;
 import com.dev.cinema.model.User;
-import com.dev.cinema.model.dto.OrderRequestDto;
 import com.dev.cinema.model.dto.OrderResponseDto;
 import com.dev.cinema.service.OrderService;
 import com.dev.cinema.service.ShoppingCartService;
@@ -12,11 +11,10 @@ import com.dev.cinema.service.mappers.OrderMapper;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -39,17 +37,16 @@ public class OrderController {
     }
 
     @PostMapping("/complete")
-    public void complete(@RequestBody OrderRequestDto orderRequestDto) {
-        Long getUserId = orderRequestDto.getUserOrderOwnerId();
-        User user = userService.findById(getUserId);
+    public void complete(Authentication authentication) {
+        User user = userService.findByEmail(authentication.getName());
         ShoppingCart shoppingCart = shoppingCartService.getByUser(user);
         List<Ticket> tickets = shoppingCart.getTickets();
         orderService.completeOrder(tickets, user);
     }
 
     @GetMapping
-    public List<OrderResponseDto> getOrdersHistory(@RequestParam Long userId) {
-        User user = userService.findById(userId);
+    public List<OrderResponseDto> getOrdersHistory(Authentication authentication) {
+        User user = userService.findByEmail(authentication.getName());
         return orderService.getOrderHistory(user).stream()
                 .map(orderMapper::toOrderResponseDto)
                 .collect(Collectors.toList());
