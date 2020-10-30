@@ -53,6 +53,5 @@ public class OrderController {
         return orderService.getOrderHistory(user).stream()
                 .map(orderMapper::toOrderResponseDto)
                 .collect(Collectors.toList());
-
     }
 }

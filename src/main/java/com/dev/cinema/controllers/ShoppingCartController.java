@@ -1,6 +1,7 @@
 package com.dev.cinema.controllers;
 
 import com.dev.cinema.model.MovieSession;
+import com.dev.cinema.model.ShoppingCart;
 import com.dev.cinema.model.User;
 import com.dev.cinema.model.dto.ShoppingCartResponseDto;
 import com.dev.cinema.service.MovieSessionService;
