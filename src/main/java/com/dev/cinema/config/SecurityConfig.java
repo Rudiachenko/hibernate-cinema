@@ -12,31 +12,23 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder managerBuilder) {
-        try {
-            managerBuilder.inMemoryAuthentication()
-                    .withUser("admin")
-                    .password(passwordEncoder().encode("admin"))
-                    .roles("USER");
-        } catch (Exception e) {
-            throw new RuntimeException("Can't configure global user", e);
-        }
+    public void configureGlobal(AuthenticationManagerBuilder managerBuilder) throws Exception {
+        managerBuilder.inMemoryAuthentication()
+                .withUser("admin")
+                .password(passwordEncoder().encode("admin"))
+                .roles("USER");
     }
 
-    protected void configure(HttpSecurity httpSecurity) {
-        try {
-            httpSecurity.authorizeRequests()
-                    .anyRequest().authenticated()
-                    .and()
-                    .formLogin()
-                    .permitAll()
-                    .and()
-                    .httpBasic()
-                    .and()
-                    .csrf().disable();
-        } catch (Exception e) {
-            throw new RuntimeException("Can't authorize user", e);
-        }
+    protected void configure(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity.authorizeRequests()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin()
+                .permitAll()
+                .and()
+                .httpBasic()
+                .and()
+                .csrf().disable();
     }
 
     @Bean

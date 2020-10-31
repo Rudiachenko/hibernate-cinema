@@ -10,7 +10,6 @@ import javax.validation.constraints.Size;
         repeatPassword = "repeatPassword"
 )
 public class UserRequestDto {
-    @NotNull
     @EmailValueConstraint
     private String email;
     @NotNull
