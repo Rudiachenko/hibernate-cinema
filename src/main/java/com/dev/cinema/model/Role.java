@@ -14,6 +14,9 @@ public class Role {
     private Long id;
     private RoleName roleName;
 
+    public Role() {
+    }
+
     public Long getId() {
         return id;
     }

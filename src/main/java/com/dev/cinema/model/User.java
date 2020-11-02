@@ -1,7 +1,7 @@
 package com.dev.cinema.model;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -14,7 +14,7 @@ public class User {
     private String login;
     private String password;
     @OneToMany
-    private List<Role> role;
+    private Set<Role> role;
 
     public User(String email, String password) {
         this.email = email;
@@ -22,14 +22,6 @@ public class User {
     }
 
     public User() {
-    }
-
-    public List<Role> getRole() {
-        return role;
-    }
-
-    public void setRole(List<Role> role) {
-        this.role = role;
     }
 
     public Long getId() {
@@ -62,6 +54,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Set<Role> getRole() {
+        return role;
+    }
+
+    public void setRole(Set<Role> role) {
+        this.role = role;
     }
 
     @Override

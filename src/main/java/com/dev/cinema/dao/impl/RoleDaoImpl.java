@@ -9,7 +9,9 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class RoleDaoImpl implements RoleDao {
     private static final Logger logger = Logger.getLogger(OrderDaoImpl.class);
     private final SessionFactory sessionFactory;
