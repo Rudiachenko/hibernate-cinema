@@ -1,13 +1,13 @@
 package com.dev.cinema.dao.impl;
 
 import com.dev.cinema.dao.RoleDao;
-import com.dev.cinema.model.MovieSession;
 import com.dev.cinema.model.Role;
 import exceptions.DataProcessingException;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -22,7 +22,7 @@ public class RoleDaoImpl implements RoleDao {
     }
 
     @Override
-    public void add(Role role) {
+    public Role add(Role role) {
         Transaction transaction = null;
         Session session = null;
         try {
@@ -31,6 +31,7 @@ public class RoleDaoImpl implements RoleDao {
             session.save(role);
             transaction.commit();
             logger.info("Role inserted successfully. " + role);
+            return role;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
@@ -45,9 +46,11 @@ public class RoleDaoImpl implements RoleDao {
     }
 
     @Override
-    public Role getRoleByName(String roleName) {
+    public Role getRoleByName(Role.RoleName roleName) {
         try (Session session = sessionFactory.openSession()) {
-            return session.get(Role.class, roleName);
+            Query<Role> query = session.createQuery("FROM Role WHERE roleName = :roleName");
+            query.setParameter("roleName", roleName);
+            return query.getSingleResult();
         }
     }
 }
