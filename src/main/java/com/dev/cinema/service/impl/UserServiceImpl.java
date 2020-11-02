@@ -24,9 +24,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User add(User user) {
-        String stringRole = String.valueOf(Role.RoleName.ROLE_USER);
-        Role role = roleService.getRoleByName(stringRole);
         String password = passwordEncoder.encode(user.getPassword());
+        Role role = roleService.getRoleByName(String.valueOf(Role.RoleName.ROLE_USER));
         user.setPassword(password);
         user.getRole().add(role);
         return userDao.add(user);
