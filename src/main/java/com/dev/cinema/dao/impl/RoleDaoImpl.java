@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class RoleDaoImpl implements RoleDao {
-    private static final Logger logger = Logger.getLogger(OrderDaoImpl.class);
+    private static final Logger logger = Logger.getLogger(RoleDaoImpl.class);
     private final SessionFactory sessionFactory;
 
     @Autowired
