@@ -2,7 +2,9 @@ package com.dev.cinema.controllers;
 
 import com.dev.cinema.model.Role;
 import com.dev.cinema.model.User;
+import com.dev.cinema.security.AuthenticationService;
 import com.dev.cinema.service.RoleService;
+import com.dev.cinema.service.ShoppingCartService;
 import com.dev.cinema.service.UserService;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +17,18 @@ import org.springframework.web.bind.annotation.RestController;
 public class InjectDataController {
     private final UserService userService;
     private final RoleService roleService;
+    private final AuthenticationService authenticationService;
+    private final ShoppingCartService shoppingCartService;
 
     @Autowired
-    public InjectDataController(UserService userService, RoleService roleService) {
+    public InjectDataController(UserService userService,
+                                RoleService roleService,
+                                AuthenticationService authenticationService,
+                                ShoppingCartService shoppingCartService) {
         this.userService = userService;
         this.roleService = roleService;
+        this.authenticationService = authenticationService;
+        this.shoppingCartService = shoppingCartService;
     }
 
     @GetMapping("/roles")
@@ -28,19 +37,17 @@ public class InjectDataController {
         Role adminRole = Role.of("ADMIN");
         roleService.add(userRole);
         roleService.add(adminRole);
-        return "Roles injected successfully ";
+        return "Roles injected successfully";
     }
 
     @GetMapping("/users")
     public String injectUsersIntoDb() {
-        Role userRole = roleService.getRoleByName(Role.RoleName.USER);
         Role userAdmin = roleService.getRoleByName(Role.RoleName.ADMIN);
-        User taras = new User("taras@gmail.com", "password", Set.of(userRole));
-        userService.add(taras);
-        User andrew = new User("andrew@gmail.com", "password", Set.of(userRole));
-        userService.add(andrew);
+        authenticationService.register("taras@gmail.com", "password");
+        authenticationService.register("andrew@gmail.com", "password");
         User admin = new User("fedia@gmail.com", "password", Set.of(userAdmin));
         userService.add(admin);
-        return "Users injected successfully ";
+        shoppingCartService.registerNewShoppingCart(admin);
+        return "Users injected successfully";
     }
 }
