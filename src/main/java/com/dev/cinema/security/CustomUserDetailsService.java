@@ -21,18 +21,15 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         com.dev.cinema.model.User user = userService.findByEmail(email);
-        User.UserBuilder builder;
-        if (user != null) {
-            builder = org.springframework.security.core.userdetails.User.withUsername(email);
-            builder.password(user.getPassword());
-            String[] roleStrings = user.getRole().stream()
-                    .map(role -> role.getRoleName().name())
-                    .collect(Collectors.toList())
-                    .toArray(String[]::new);
-            builder.roles(roleStrings);
-        } else {
-            throw new UsernameNotFoundException("User not found.");
-        }
+        User.UserBuilder builder = org.springframework.security.core
+                .userdetails
+                .User.withUsername(email);
+        builder.password(user.getPassword());
+        String[] roleStrings = user.getRole().stream()
+                .map(role -> role.getRoleName().name())
+                .collect(Collectors.toList())
+                .toArray(String[]::new);
+        builder.roles(roleStrings);
         return builder.build();
     }
 }
